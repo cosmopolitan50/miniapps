@@ -12,11 +12,11 @@
 
 WeUI是一套同微信原生视觉体验一致的基础样式库，由微信官方设计团队为微信内网页和微信小程序量身设计，令用户的使用感知更加统一。
 
-![WeUI](https://user-images.githubusercontent.com/2395166/29502325-ada080f6-8661-11e7-94c2-23d638210f45.jpg)
+<img src="https://user-images.githubusercontent.com/2395166/29502325-ada080f6-8661-11e7-94c2-23d638210f45.jpg" alt="WeUI" style="zoom:50%;" />
 
 #### 小程序拓展能力展示
 
-<img src="https://res.wx.qq.com/wxdoc/dist/assets/img/demo.71f2a8d9.png" alt="imge" style="zoom: 67%;" />
+<img src="https://res.wx.qq.com/wxdoc/dist/assets/img/demo.71f2a8d9.png" alt="imge" style="zoom: 33%;" />
 
 
 
@@ -30,3 +30,6 @@ WeUI是一套同微信原生视觉体验一致的基础样式库，由微信官�
 
 
 
+##### 2021.08.30-wwq
+
+这两天我已经开始实现记账功能了，今天顺便把小程序的基本框架上传到了dev分支。我的功能规划放在工程README.md文件中。
