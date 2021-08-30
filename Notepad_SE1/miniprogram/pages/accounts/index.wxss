@@ -1,0 +1,19 @@
+.topBar{
+  background-color: #18abf5;
+}
+
+.HContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+button{
+  margin:5rpx;
+  width: 20%;  
+  
+}
+
+.inputBox{
+  background-color: white;
+}

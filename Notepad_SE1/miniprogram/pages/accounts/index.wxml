@@ -1,1 +1,85 @@
+<view>
+  <view class="topBar" style="display: flex;text-align: left;">
+
+    <view style="font-size: 45rpx;margin-top: 20rpx;">日期
+      <picker
+        style="font-size: 35rpx; width: 158rpx; height: 106rpx; display: block; box-sizing: border-box; left: NaNrpx; top: NaNrpx">
+        日期选择{{pickDate}}</picker>
+    </view>
+    <view
+      style="margin-left: 10%; font-size: 30rpx; margin-top: 55rpx; width: 158rpx; height: 141rpx; display: block; box-sizing: border-box; left: NaNrpx; top: NaNrpx">
+      <text>本日支出\n{{dayCost}}¥</text>
+    </view>
+    <view style="margin-left: 10%;font-size:30rpx;margin-top:55rpx"><text>本日收入\n{{dayIncome}}¥</text></view>
+
+  </view>
+  <view class="topBar">
+    <mp-sticky offset-top="64">
+      <button size="mini" type="primary" style="margin-left: 115px; background-color: #008F7A"
+        bindtap="writeABillPopup">记一笔</button>
+    </mp-sticky>
+  </view>
+</view>
+
+<view style="height: 20px;background-color: gainsboro;">分隔栏</view>
+
 <view>记账页面</view>
+<mp-cells title="这里写日期">
+  <!-- <mp-slideview buttons="{{[1]}}">
+    <mp-cell footer="说明文字">
+      <mp-icon icon="add2" color="black" size="{{25}}"></mp-icon>
+      首条记录
+    </mp-cell>
+  </mp-slideview> -->
+  <mp-cell value="第一条记录">
+    <mp-icon icon="link" color="black" size="{{25}}"></mp-icon>
+
+  </mp-cell>
+</mp-cells>
+<mp-cells title="这里写日期too">
+  <mp-cell>第二条记录</mp-cell>
+</mp-cells>
+
+<page-container show="{{show}}" round="{{round}}" overlay="{{overlay}}" duration="{{duration}}" position="{{position}}"
+  close-on-slide-down="{{false}}" bindbeforeenter="onBeforeEnter" bindenter="onEnter" bindafterenter="onAfterEnter"
+  bindbeforeleave="onBeforeLeave" bindleave="onLeave" bindafterleave="onAfterLeave" bindclickoverlay="onClickOverlay"
+  custom-style="{{customStyle}}" overlay-style="{{overlayStyle}}">
+  <view class="detail-page" style="background-color: #ABD9FF;">
+    <view>请选择账目类型</view>
+    <view class="HContainer">
+      <button bindtap="selCost" style='background-color: {{costOrIncome=="cost"? "#009CE9" : "white" }}'>支出</button>
+      <button bindtap="selIncome" style='background-color: {{costOrIncome=="income"? "#009CE9" : "white" }}'>收入</button>
+    </view>
+    <view>类别</view>
+    <view wx:if='{{costOrIncome=="cost"}}'>
+      <button bindtap="selCostType" style='background-color: {{costType=="food"? "#009CE9" : "white" }}'
+        id="food">餐饮</button>
+      <button bindtap="selCostType" style='background-color: {{costType=="dUse"? "#009CE9" : "white" }}'
+        id="dUse">日用</button>
+      <button bindtap="selCostType" style='background-color: {{costType=="trans"? "#009CE9" : "white" }}'
+        id="trans">交通</button>
+    </view>
+    <view wx:else>
+      <button bindtap="selIncomeType" style='background-color: {{incomeType=="salary"? "#009CE9" : "white" }}'
+        id="salary">工资</button>
+      <button bindtap="selIncomeType" style='background-color: {{incomeType=="bonus"? "#009CE9" : "white" }}'
+        id="bonus">奖金</button>
+
+    </view>
+    <form bindsubmit="formSubmit">
+      <view>
+        <view>金额的输入</view>
+        <input name="money" class="inputBox" type="digit" placeholder="请输入金额" value="{{initInput}}" />
+      </view>
+      <view>
+        <view>备注</view>
+        <input name="remark" class="inputBox" placeholder="请输入备注" value="{{initInput}}"/>
+      
+      </view>
+      <view class="HContainer">
+        <button type="primary" form-type="submit">确定</button>
+        <button type="primary" bindtap="exitPage">取消</button>
+      </view>
+    </form>
+  </view>
+</page-container>
