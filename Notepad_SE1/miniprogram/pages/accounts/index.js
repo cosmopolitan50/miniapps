@@ -18,7 +18,31 @@ Page({
     incomeType:"salary",
 
     initInput:"",
-    successAdd:false
+    successAdd:false,
+
+    date:"",
+    today:"",
+
+  },
+  onAfterEnter(){
+    this.setData({
+      today:this.makeDateString(new Date()),
+      date:this.makeDateString(new Date())
+    })
+  },
+  makeDateString:function(dateObj){
+    var temp="";
+    if(dateObj.getMonth()+1<=10){
+      temp="0"
+    }
+    return dateObj.getFullYear()+'-'+temp+(dateObj.getMonth()+1)+'-'+dateObj.getDate();
+  },
+  bindDateChange:function (e) {
+      console.log('picker发送选择改变，携带值为', e.detail.value)
+      this.setData({
+        date: e.detail.value
+      })
+    
   },
   writeABillPopup(e){    
     let customStyle = ''
@@ -80,6 +104,7 @@ Page({
   },
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
+    var date=this.data.date
     var coi = this.data.costOrIncome
     var type= (coi=="cost") ? this.data.costType : this.data.incomeType
     var mon= e.detail.value.money    
@@ -88,6 +113,7 @@ Page({
       const db= wx.cloud.database()
       db.collection('account_bill').add({
         data:{
+          date,
           type,
           money:Number(mon),
           remark
