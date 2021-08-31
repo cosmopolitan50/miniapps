@@ -26,18 +26,26 @@
     "backgroundColor": "#ffffff",
     "list":[
       {
+        "iconPath": "images/note.png",
+        "selectedIconPath": "images/note_sel.png",
         "pagePath":"pages/notes/index",
         "text": "笔记"
       },
       {
+        "iconPath": "images/account.png",
+        "selectedIconPath": "images/account_sel.png",
         "pagePath":"pages/accounts/index",
         "text": "记账"
       },
       {
+        "iconPath": "images/tool.png",
+        "selectedIconPath": "images/tool_sel.png",
         "pagePath":"pages/tool/index",
         "text": "工具"
       },
       {
+        "iconPath": "images/me.png",
+        "selectedIconPath": "images/me_sel.png",
         "pagePath":"pages/me/index",
         "text": "我的"
       }

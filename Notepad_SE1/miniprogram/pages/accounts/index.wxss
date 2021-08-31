@@ -8,11 +8,11 @@
   justify-content: space-around;
 }
 
-button{
+/* button{
   margin:5rpx;
   width: 20%;  
   
-}
+} */
 
 .inputBox{
   background-color: white;
@@ -34,9 +34,21 @@ button{
 
 .typeBox{
   display: flex;
-  margin: 0rpx 20rpx;
+  flex-direction: row;
+  justify-content: space-around;
+  
 }
 
-.typeBtn{
-  margin: 5rpx 10rpx ;
+/* .typeBtn{
+  /* width: 30%; 
+  /* display: flex; 
+  margin: 0 0rpx 0 0;  
+  /* margin: 5rpx 10rpx ; 
+} */
+
+.typeImg{
+  height: 130rpx;
+  width: 130rpx;
+  display: flex;
+  margin: 0 auto;
 }
