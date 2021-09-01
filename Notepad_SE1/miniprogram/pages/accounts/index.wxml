@@ -24,22 +24,48 @@
 <!-- 分割线 -->
 <view style="height: 5px;background-color: gainsboro;"></view>
 
-<view wx:if="{{emptyDatabase}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 记下我的第一笔账 *</view>
-<view wx:if="{{!haveGetOpenId}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 登录开启记账生活 *</view>
+<view wx:if="{{emptyDatabase}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 记下我的第一笔账 *
+</view>
+<view wx:if="{{!haveGetOpenId}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 登录开启记账生活 *
+</view>
 
-<mp-cells ext-class="cellsStyle" title="{{months[index]}}月" 
-footer="本月支出:{{monthsCost[months[index]-1]}}    本月收入:{{monthsIncome[months[index]-1]}}" 
-wx:for="{{months}}" wx:key="index" wx:for-item="monNum">
-  
-  <mp-slideview buttons="{{slideButtons}}" wx:for="{{a_year_bill_data_Arr[monNum-1]}}" wx:key="index" >
-    <view class="cellStyle" z-index>
+<mp-cells ext-class="cellsStyle" title="{{months[index]}}月"
+  footer="本月支出:{{monthsCost[months[index]-1]}}    本月收入:{{monthsIncome[months[index]-1]}}" wx:for="{{months}}"
+  wx:key="index" wx:for-item="monNum">
+
+  <mp-slideview buttons="{{slideButtons}}" wx:for="{{a_year_bill_data_Arr[monNum-1]}}" wx:key="index"
+    bindbuttontap="slideButtonTap" id="{{item._id}}">
+    <view class="cellStyle">
       <view style="display: flex;flex-direction: row;justify-content: space-around;margin-left: 20rpx;">
         <view style="width: 100rpx;">{{item.day}}日</view>
         <view style="flex-grow: 1;text-align: center;">{{item.type}}</view>
-        <view style='width: 150rpx;text-align: right;margin-right: 20rpx;color: {{item.coi=="cost"?"#5095ED":"#34EBB5"}};'>{{item.coi=="cost"?"-":"+"}}{{item.money}}</view>
+        <view
+          style='width: 150rpx;text-align: right;margin-right: 20rpx;color: {{item.coi=="cost"?"#5095ED":"#34EBB5"}};'>
+          {{item.coi=="cost"?"-":"+"}}{{item.money}}</view>
       </view>
       <view style="font-size: 30rpx;color: gray;margin-left:20rpx ; ">{{item.remark==""?"(无备注)":"备注："}}{{item.remark}}
       </view>
+      <!-- ************************************修改操作表单 -->
+      <view wx:if="{{id_showModForm==item._id}}">
+        <form bindsubmit="formSubmit_updateBill">
+          <!-- 金额栏 -->
+          <view>
+            <view class="titleHeader">修改金额</view>
+            <input name="money_m" class="inputBox" type="digit" placeholder="修改金额.." value="{{initInput_m_money}}" />
+          </view>
+          <!-- 备注栏 -->
+          <view>
+            <view class="titleHeader">修改备注</view>
+            <input name="remark_m" class="inputBox" placeholder="输入新的备注" value="{{initInput_m_remarks}}" />
+          </view>
+          <!-- 按钮 -->
+          <view class="HContainer" style="padding-left:20rpx;padding-top: 20rpx;padding-bottom: 20rpx;">
+            <button class="formBtn_m" form-type="submit">确定</button>
+            <button class="formBtn_m" style="margin: 10rpx 20rpx;" bindtap="cancelMod">取消</button>
+          </view>
+        </form>
+      </view>
+
     </view>
   </mp-slideview>
 </mp-cells>
@@ -50,9 +76,8 @@ wx:for="{{months}}" wx:key="index" wx:for-item="monNum">
 
 <!-- ************************* ************         假页wxml       ************ ********************************* -->
 <page-container show="{{show}}" round="{{round}}" overlay="{{overlay}}" duration="{{duration}}" position="{{position}}"
-  close-on-slide-down="{{false}}" bindbeforeenter="onBeforeEnter" bindenter="onEnter" bindafterenter="onAfterEnter"
-  bindbeforeleave="onBeforeLeave" bindleave="onLeave" bindafterleave="onAfterLeave" bindclickoverlay="onClickOverlay"
-  custom-style="{{customStyle}}" overlay-style="{{overlayStyle}}" >
+  close-on-slide-down="{{false}}" bindbeforeleave="onBeforeLeave" custom-style="{{customStyle}}"
+  overlay-style="{{overlayStyle}}">
   <view style="background-color: #ABD9FF;">
 
     <!-- 日期栏 -->
@@ -102,9 +127,8 @@ wx:for="{{months}}" wx:key="index" wx:for-item="monNum">
       <view>
         <view class="titleHeader">备注</view>
         <input name="remark" class="inputBox" placeholder="请输入备注" value="{{initInput}}" />
-
-        <!-- 表单按钮 -->
       </view>
+      <!-- 表单按钮 -->
       <view class="HContainer" style="padding-left:20rpx;padding-top: 60rpx;padding-bottom: 20rpx;">
         <button class="formBtn" form-type="submit">确定</button>
         <button class="formBtn" style="margin: 10rpx 20rpx;" bindtap="exitPage">取消</button>

@@ -53,10 +53,13 @@ Page({
     position: 'top',
     round: false,
     overlay: true,
-    overlayStyle: '',
-    customStyle : '',
-    // overlayStyle: 'z-index:99',
-    // customStyle : 'z-index:999',
+    // overlayStyle: '',
+    // customStyle : '',
+    overlayStyle: 'z-index:99',
+    customStyle : 'z-index:999',
+
+    //存ID
+    id_showModForm:'',
 
     // 默认选项
     costOrIncome:"cost",
@@ -65,6 +68,10 @@ Page({
 
     initInput:"",
     successAdd:false,
+
+    initInput_m_money:"",
+    initInput_m_remarks:"",
+    successMod:false,
 
     date:"",
     today:"",
@@ -169,32 +176,18 @@ Page({
       }
     })
   },
-  // refreshPageWithoutSearchDb(opt,p1,p2){
-  //   switch(opt){
-  //     case "add":
-  //     //记下一笔账成功之后
-  //     if(p1){
-  //       var arr=a_year_bill_data_Arr
-  //       arr.push()
-  //       this.setData({
-
-  //       })
-  //     }
-          
-          
-  //         //缺点，切换年份时，必须刷新
-
-  //       break;
-  //     default:console.err("in function refreshPageWithoutSearchDb(opt): opt invalid!")
-  //   }
-    
-
-  //   //删除一笔账
-
-  //   //更新一笔账
-
-    
-  // },
+  refreshMonthsArr(){
+    //主要用来解决Month数组只依赖于 a year bill
+    var i
+    var tempArr=new Array()
+    for(i=0;i<this.data.a_year_bill_data_Arr.length;i++){
+      if(this.data.a_year_bill_data_Arr[i].length>0)tempArr.push(i+1);
+    }
+    tempArr.sort().reverse()
+    this.setData({
+      months:tempArr
+    })
+  },
   initPage(){
     //刷新年份
     this.refreshYear()
@@ -221,9 +214,7 @@ Page({
   onShow(){
 
   },
-  onAfterEnter(){
-    
-  },
+  
 
   //ISO日期的字符串拼接
   makeDateString:function(dateObj){
@@ -255,17 +246,20 @@ Page({
       return;
     }  
 
-
-    let customStyle = ''
+    let position = this.data.position
+    let customStyle = this.data.customStyle
     let duration = this.data.duration
+    let overlayStyle = this.data.overlayStyle
     //中部弹出
     this.setData({
-      position:"center",
+      position,
       show: true,
       customStyle,
-      duration
+      duration,
+      overlayStyle
     })
   },
+  
   onBeforeEnter(){
     // console.log("这个不能是true",this.data.successAdd)
   },
@@ -275,6 +269,7 @@ Page({
       initInput:""
     })
   },
+  
   exitPage() {
     this.setData({show: false})
     // wx.navigateBack()
@@ -289,6 +284,7 @@ Page({
       successAdd:false
     })
   },
+  
   selCost(){
     this.setData({
       costOrIncome:"cost"
@@ -313,6 +309,8 @@ Page({
       incomeType:it
     })
   },
+
+  //提交增加记录表单
   formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
     var date=this.data.date
@@ -393,46 +391,43 @@ Page({
               var tArrMonthIorC=(coi=="cost")?this.data.monthsCost:this.data.monthsIncome
               tArrMonthIorC[Number(month)-1]+=num_mon
 
-              //三、准备好更新存在的月份
-              var i
-              var hasThatMonth = false
-              for(i=0;i<this.data.months.length;i++){
-                if(Number(month)==this.data.months[i]){
-                  hasThatMonth=true
-                  break;
-                }
-              }
-              var tArrAddMonth=this.data.months
-              if(!hasThatMonth){
-                tArrAddMonth.push(Number(month))
-                tArrAddMonth.sort().reverse()
-              }
+              
+
+              // var i
+              // var hasThatMonth = false
+              // for(i=0;i<this.data.months.length;i++){
+              //   if(Number(month)==this.data.months[i]){
+              //     hasThatMonth=true
+              //     break;
+              //   }
+              // }
+              // var tArrAddMonth=this.data.months
+              // if(!hasThatMonth){
+              //   tArrAddMonth.push(Number(month))
+              //   tArrAddMonth.sort().reverse()
+              // }
 
               if(coi=="cost"){
                 this.setData({
                   a_year_bill_data_Arr:arr,
                   monthsCost:tArrMonthIorC,
-                  months:tArrAddMonth
+                  // months:tArrAddMonth
                 })
               }else{
                 this.setData({
                   a_year_bill_data_Arr:arr,
                   monthsIncome:tArrMonthIorC,
-                  months:tArrAddMonth
+                  // months:tArrAddMonth
                 })
               }
-              console.log(this.data.a_year_bill_data_Arr)
+              //三、准备好更新存在的月份
+              this.refreshMonthsArr()
+              // console.log(this.data.a_year_bill_data_Arr)
             }else{//不是所选的年份，什么都不用干
                 //do nothing
             }
           }
 
-
-          
-            
-            
-          
-          
         },
         fail:err=>{
           wx.showToast({
@@ -450,6 +445,12 @@ Page({
       })
     }
   },
+
+  //提交修改表单
+  formSubmit_updateBill(e){
+    console.log("修改表单带了啥数据",e)
+  },
+
   //年份选择器变更
   bindPickerChange: function (e) {
     var lastSelYear=this.data.yearsIdx
@@ -463,6 +464,24 @@ Page({
     this.refreshPage()
   },
   
+  slideButtonTap(e){
+    // console.log('slide button tap', e);
+    switch(e.detail.data){
+      case "modifyBill":
+        console.log("修改操作")
+        this.setData({
+          id_showModForm:e.target.id
+        })
+        break
+      case "DeleteBill":
+        console.log("删除操作")
+        break
+      default:console.err("err in slideButtonTap")
+    }
+  },
+
+
+
   //从getOpenID搬迁
   getOpenId() {
     wx.showLoading({
@@ -498,9 +517,13 @@ Page({
       haveGetOpenId: false,
       openId: ''
     })
+  },
+
+  cancelMod(){
+    this.setData({
+      id_showModForm:''
+    })
   }
-
-
 
 
 })
