@@ -391,22 +391,6 @@ Page({
               var tArrMonthIorC=(coi=="cost")?this.data.monthsCost:this.data.monthsIncome
               tArrMonthIorC[Number(month)-1]+=num_mon
 
-              
-
-              // var i
-              // var hasThatMonth = false
-              // for(i=0;i<this.data.months.length;i++){
-              //   if(Number(month)==this.data.months[i]){
-              //     hasThatMonth=true
-              //     break;
-              //   }
-              // }
-              // var tArrAddMonth=this.data.months
-              // if(!hasThatMonth){
-              //   tArrAddMonth.push(Number(month))
-              //   tArrAddMonth.sort().reverse()
-              // }
-
               if(coi=="cost"){
                 this.setData({
                   a_year_bill_data_Arr:arr,
@@ -434,7 +418,7 @@ Page({
             title: 'none',
             title:'新增记录失败'
           })
-          console.err("数据库 新增记录 失败：",err)
+          console.error("数据库 新增记录 失败：",err)
         }
       })
     }else{
@@ -449,7 +433,99 @@ Page({
   //提交修改表单
   formSubmit_updateBill(e){
     console.log("修改表单带了啥数据",e)
+    var money=e.detail.value.money_m
+    var remark=e.detail.value.remark_m
+    //啥也不输，确定就是取消
+    if(money==""&&remark==""){
+      this.cancelMod()
+      return;
+    }
+    var id = this.data.id_showModForm
+    console.log("即将修改此条记录",id)
+    
+    var that = this
+    var those = this
+    const db=wx.cloud.database()
+    // var successUpdate =false
+    if(remark==""&&money!=""){//只更新money
+      db.collection('account_bill').doc(id).update({
+      data:{
+        money:Number(money),
+      },
+      complete:res=>{},
+      success:res=>{
+        console.log("更新记录成功",res)
+        // successUpdate=true
+        //统一退出菜单，执行当前页面的更新    
+        that.setData({
+          id_showModForm:""
+        })
+        that.refreshPage()
+    
+      },
+      fall:err=>{
+        wx.showToast({
+          title: '更新记录失败',
+          icon:'error'
+        })
+        console.error("数据库 更新记录 失败",err)
+      }
+    })
+    }else if(remark!=""&&money==""){//只更新备注
+      db.collection('account_bill').doc(id).update({
+        data:{
+          remark:remark,
+        },
+        complete:res=>{},
+        success:res=>{
+          console.log("更新记录成功",res)
+          // successUpdate=true
+          //统一退出菜单，执行当前页面的更新    
+          those.setData({
+            id_showModForm:""
+          })
+          those.refreshPage()
+        },
+        fall:err=>{
+          wx.showToast({
+            title: '更新记录失败',
+            icon:'error'
+          })
+          console.error("数据库 更新记录 失败",err)
+        }
+      })
+    }else if(remark!=""&&money!=""){
+      db.collection('account_bill').doc(id).update({
+        data:{
+          money:Number(money),
+          remark:remark,
+        },
+        complete:res=>{},
+        success:res=>{
+          console.log("更新记录成功",res)
+          // successUpdate=true
+          //统一退出菜单，执行当前页面的更新    
+          that.setData({
+            id_showModForm:""
+          })
+          that.refreshPage()
+        },
+        fall:err=>{
+          wx.showToast({
+            title: '更新记录失败',
+            icon:'error'
+          })
+          console.error("数据库 更新记录 失败",err)
+        }
+      })
+    }
+
+    
   },
+  
+    
+  
+
 
   //年份选择器变更
   bindPickerChange: function (e) {
@@ -476,7 +552,7 @@ Page({
       case "DeleteBill":
         console.log("删除操作")
         break
-      default:console.err("err in slideButtonTap")
+      default:console.error("err in slideButtonTap",err)
     }
   },
 

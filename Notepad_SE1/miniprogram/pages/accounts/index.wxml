@@ -45,7 +45,7 @@
       </view>
       <view style="font-size: 30rpx;color: gray;margin-left:20rpx ; ">{{item.remark==""?"(无备注)":"备注："}}{{item.remark}}
       </view>
-      <!-- ************************************修改操作表单 -->
+      <!-- ************************************修改操作表单*********************** -->
       <view wx:if="{{id_showModForm==item._id}}">
         <form bindsubmit="formSubmit_updateBill">
           <!-- 金额栏 -->
