@@ -26,6 +26,9 @@
 
 <view wx:if="{{emptyDatabase}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 记下我的第一笔账 *
 </view>
+
+<view wx:if="{{emptyYearPagee}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 这一年没有记账数据 *
+</view>
 <view wx:if="{{!haveGetOpenId}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 登录开启记账生活 *
 </view>
 
@@ -62,6 +65,16 @@
           <view class="HContainer" style="padding-left:20rpx;padding-top: 20rpx;padding-bottom: 20rpx;">
             <button class="formBtn_m" form-type="submit">确定</button>
             <button class="formBtn_m" style="margin: 10rpx 20rpx;" bindtap="cancelMod">取消</button>
+          </view>
+        </form>
+      </view>
+      <!-- ************************************删除确认表单*********************** -->
+      <view wx:if="{{id_showDelForm==item._id}}">
+        <form bindsubmit="formSubmit_DeleteBill">
+        <!-- 按钮 -->
+        <view class="HContainer" style="padding-left:20rpx;padding-top: 20rpx;padding-bottom: 20rpx;">
+            <button class="formBtn_d" form-type="submit">确定删除</button>
+            <button class="formBtn_d" style="margin: 10rpx 20rpx;" bindtap="cancelDel">取消</button>
           </view>
         </form>
       </view>

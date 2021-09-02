@@ -11,8 +11,10 @@ Page({
     //当前数据库是否为空 //或者没登录
     emptyDatabase:false,
 
-    dayIncome:0,
-    dayCost:0,
+    emptyYearPage:true,
+
+    dayIncome:"<计划中>",//0
+    dayCost:"<计划中>",//0
     monthsCost:[0,0,0,0,0,0,0,0,0,0,0,0],
     monthsIncome:[0,0,0,0,0,0,0,0,0,0,0,0],
 
@@ -60,6 +62,7 @@ Page({
 
     //存ID
     id_showModForm:'',
+    id_showDelForm:'',
 
     // 默认选项
     costOrIncome:"cost",
@@ -106,18 +109,20 @@ Page({
       })
       // console.log(that.data.years)
     }else{
+
       that.setData({
-        emptyDatabase:true
+        emptyDatabase:true,
+        years:[]
       })
     }
     })
     //加载年份后肯定要加载月份和日期
-    //但是这些，onLoad函数另外调用了，切换年份的绑定事件也另外调用了，添加数据成功后也另外调用了refreshPage
+    //但是这些，onLoad函数另外调用了，切换年份的绑定事件也另外调用了
 
   },
   refreshPage(){
-    //数据库为空,onLoad不执行此条函数
-    // if(emptyDatabase)return;
+    //年页面为空,onLoad不执行此条函数
+    
     //添加数据成功后刷新页面
     
 
@@ -129,7 +134,11 @@ Page({
     }).get({
       complete:res=>{},
       success:res=>{
-        console.log("按年份查询成功")
+        console.log("list有啥",res.data.length)
+        if(res.data.length!=0){
+
+        
+        console.log("按年份查询成功",res.data)
         var i
         let monthSet = new Set()
         // 遍历每一条记录
@@ -167,8 +176,17 @@ Page({
           months:tempArr,
           a_year_bill_data_Arr:tempArrArr,
           monthsCost:tMsCt,
-          monthsIncome:tMsIc
-        })
+          monthsIncome:tMsIc,
+          emptyYearPage:false
+        })}else{
+          //当前年页没有数据
+          console.log("当前年页没有数据")
+          that.setData({
+            a_year_bill_data_Arr:[],
+            months:[],
+            emptyYearPage:true
+          })
+        }
       },
       fail:err=>{
         wx.showToast({title: '查询失败',icon:none})
@@ -358,20 +376,34 @@ Page({
           }
           // console.log("这一年存不存在？",hasThatYear)
           
+          //年页数据库为空？
+          if(this.data.emptyYearPage){
+                this.refreshYear()
+                this.refreshPage()
+                return;
+          }
+
+
+
+
           /***********避免频繁查询数据库时的优化操作************/
           //如果年份是新的，直接假装加入年份选择列表（注意，把条目的ID也加进去，因为要查找
+          var that = this
           if(!hasThatYear){
-            var tArr=this.data.years
-            tArr.push(year)
-            tArr.sort().reverse()
-            this.setData({
-              years:tArr
-            })
+              //不是一开始的
+                var tArr=this.data.years
+                tArr.push(year)
+                tArr.sort().reverse()
+                this.setData({
+                  years:tArr
+                })
+              
           }
           else{//年份不是新的    
             var isTheSelectedYear=false
             if(this.data.years[this.data.yearsIdx]==year)isTheSelectedYear=true
-            if(isTheSelectedYear){//是所选的年份，直接假装加入账单列表（附带渲染了）
+            if(isTheSelectedYear){
+              //是所选的年份，直接假装加入账单列表（附带渲染了）
 
               //一、准备好每月的数据条目
               var arr=this.data.a_year_bill_data_Arr
@@ -395,12 +427,14 @@ Page({
                 this.setData({
                   a_year_bill_data_Arr:arr,
                   monthsCost:tArrMonthIorC,
+                  emptyYearPage:false,
                   // months:tArrAddMonth
                 })
               }else{
                 this.setData({
                   a_year_bill_data_Arr:arr,
                   monthsIncome:tArrMonthIorC,
+                  emptyYearPage:false,
                   // months:tArrAddMonth
                 })
               }
@@ -522,7 +556,32 @@ Page({
 
     
   },
-  
+  formSubmit_DeleteBill(e){
+    var id=this.data.id_showDelForm
+    console.log("即将删除这个记录",id)
+    
+    var that = this
+    const db =wx.cloud.database()
+    db.collection('account_bill').doc(id).remove({
+      complete:res=>{},
+      success:res=>{
+        console.log("数据库删除成功")
+        //统一退出菜单，执行所有更新的更新    
+        that.setData({
+          id_showDelForm:""
+        })
+        that.refreshYear()
+        that.refreshPage()
+      },
+      fail:err=>{
+        wx.showToast({
+          title: '删除记录失败',
+          icon:'error'
+        })
+        console.error("数据库 删除记录 失败",err)
+      }
+    })
+  },
     
   
 
@@ -551,6 +610,9 @@ Page({
         break
       case "DeleteBill":
         console.log("删除操作")
+        this.setData({
+          id_showDelForm:e.target.id
+        })
         break
       default:console.error("err in slideButtonTap",err)
     }
@@ -598,6 +660,11 @@ Page({
   cancelMod(){
     this.setData({
       id_showModForm:''
+    })
+  },
+  cancelDel(){
+    this.setData({
+      id_showDelForm:''
     })
   }
 
