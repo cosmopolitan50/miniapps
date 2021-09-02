@@ -1,17 +1,20 @@
 <view>
   <view class="topBar" style="display: flex;text-align: left;">
 
-    <view style="font-size: 45rpx;margin-top: 20rpx;margin-left: 20rpx;">{{(emptyDatabase||!haveGetOpenId)?"^_^":"日期"}}
+    <view style="font-size: 30rpx;margin-top: 20rpx;margin-left: 20rpx;">{{(emptyDatabase||!haveGetOpenId)?"^_^":"日期"}}
       <picker value="{{yearsIdx}}" range="{{years}}" bindchange="bindPickerChange"
-        style="font-size: 50rpx; width: 180rpx; height: 106rpx;font-weight: 500; ">
+        style="font-size: 50rpx; width: 180rpx; height: 106rpx;font-weight: 500; font-weight: bold;">
         {{years[yearsIdx]}}</picker>
     </view>
-    <view
-      style="margin-left: 10%; font-size: 30rpx; margin-top: 55rpx; width: 158rpx; height: 141rpx; display: block; box-sizing: border-box; left: NaNrpx; top: NaNrpx">
-      <text>本日支出\n{{dayCost}}¥</text>
-    </view>
-    <view style="margin-left: 10%;font-size:30rpx;margin-top:55rpx"><text>本日收入\n{{dayIncome}}¥</text></view>
-
+    
+      <view
+        style="margin-left: 10%; font-size: 30rpx; margin-top: 55rpx; width: 158rpx; height: 141rpx; display: block; box-sizing: border-box; left: NaNrpx; top: NaNrpx">
+        <text>本日支出\n{{dayCost}}¥</text>
+      </view>
+      <view style="margin-left: 10%;font-size:30rpx;margin-top:55rpx">
+        <text>本日收入\n{{dayIncome}}¥</text>
+      </view>
+    
   </view>
   <view class="topBar">
     <mp-sticky offset-top="16">
@@ -40,13 +43,16 @@
     bindbuttontap="slideButtonTap" id="{{item._id}}">
     <view class="cellStyle">
       <view style="display: flex;flex-direction: row;justify-content: space-around;margin-left: 20rpx;">
-        <view style="width: 100rpx;">{{item.day}}日</view>
-        <view style="flex-grow: 1;text-align: center;">{{item.type}}</view>
+        <view style="width: 100rpx;font-size: small;color: darkgrey;padding-left: 20rpx;">{{item.day}}日</view>
         <view
-          style='width: 150rpx;text-align: right;margin-right: 20rpx;color: {{item.coi=="cost"?"#5095ED":"#34EBB5"}};'>
+          style='flex-grow: 1;text-align: center;font-size: small;font-weight: bold;color: {{item.coi=="cost"?"#2f8ee9":"#008F7A"}};'>
+          {{TypeKeyPair[item.type]}}</view>
+        <view
+          style='width: 150rpx;text-align: right;margin-right: 40rpx;color: {{item.coi=="cost"?"#5095ED":"#34EBB5"}};'>
           {{item.coi=="cost"?"-":"+"}}{{item.money}}</view>
       </view>
-      <view style="font-size: 30rpx;color: gray;margin-left:20rpx ; ">{{item.remark==""?"(无备注)":"备注："}}{{item.remark}}
+      <view style="font-size: 30rpx;color: gray;margin:0 40rpx ;border-bottom: 1px solid rgb(218, 218, 218); ">
+        {{item.remark==""?"(无备注)":"备注："}}{{item.remark}}
       </view>
       <!-- ************************************修改操作表单*********************** -->
       <view wx:if="{{id_showModForm==item._id}}">
@@ -71,8 +77,8 @@
       <!-- ************************************删除确认表单*********************** -->
       <view wx:if="{{id_showDelForm==item._id}}">
         <form bindsubmit="formSubmit_DeleteBill">
-        <!-- 按钮 -->
-        <view class="HContainer" style="padding-left:20rpx;padding-top: 20rpx;padding-bottom: 20rpx;">
+          <!-- 按钮 -->
+          <view class="HContainer" style="padding-left:20rpx;padding-top: 20rpx;padding-bottom: 20rpx;">
             <button class="formBtn_d" form-type="submit">确定删除</button>
             <button class="formBtn_d" style="margin: 10rpx 20rpx;" bindtap="cancelDel">取消</button>
           </view>

@@ -13,26 +13,50 @@ Page({
 
     emptyYearPage:true,
 
-    dayIncome:"<计划中>",//0
-    dayCost:"<计划中>",//0
+    dayIncome:0,
+    dayCost:0,
     monthsCost:[0,0,0,0,0,0,0,0,0,0,0,0],
     monthsIncome:[0,0,0,0,0,0,0,0,0,0,0,0],
 
 
     // 支出的项目
     costTypeList:[
-      {"sym":"food","name":"餐饮","tempSumOfAyear":0},
-      {"sym":"dUse","name":"日用","tempSumOfAyear":0},
-      {"sym":"tras","name":"交通","tempSumOfAyear":0},
-      {"sym":"ent","name":"娱乐","tempSumOfAyear":0},
+      {
+        "sym":"food",
+        "name":"餐饮",
+        "tempSumOfAyear":0,        
+      },
+      {
+        "sym":"dUse",
+        "name":"日用",
+        "tempSumOfAyear":0,        
+      },
+      {
+        "sym":"trans",
+        "name":"交通",
+        "tempSumOfAyear":0,        
+      },
+      {
+        "sym":"ent",
+        "name":"娱乐",
+        "tempSumOfAyear":0,
+      },
     ],
-
     //收入的项目
     incomeTypeList:[
       {"sym":"salary","name":"工资","tempSumOfAyear":0},
       {"sym":"bonus","name":"奖金","tempSumOfAyear":0},
       {"sym":"monMan","name":"理财","tempSumOfAyear":0},
     ],
+    TypeKeyPair:{
+      "food":"餐饮",
+      "dUse":"日用",
+      "trans":"交通",
+      "ent":"娱乐",
+      "salary":"工资",
+      "bonus":"奖金",
+      "monMan":"理财"
+    },
 
     slideButtons:[
       {
@@ -57,6 +81,7 @@ Page({
     overlay: true,
     // overlayStyle: '',
     // customStyle : '',
+    // 论坛里找来的解决方法
     overlayStyle: 'z-index:99',
     customStyle : 'z-index:999',
 
@@ -76,8 +101,8 @@ Page({
     initInput_m_remarks:"",
     successMod:false,
 
-    date:"",
-    today:"",
+    date:"",//提交表单里的日期选择 格式：1900-01-01
+    today:"",//今天的日期         格式：1900-01-01
 
     years:[],   //账单涉及到的年份
     yearsIdx:0,
@@ -135,56 +160,80 @@ Page({
       complete:res=>{},
       success:res=>{
         console.log("list有啥",res.data.length)
-        if(res.data.length!=0){
 
-        
-        console.log("按年份查询成功",res.data)
-        var i
-        let monthSet = new Set()
-        // 遍历每一条记录
-        console.log("res.data",res.data)
-        let a_year_bill_data = new Array()
-        for(i=0;i<12;i++){
-          a_year_bill_data[i]=new Set()
-        }
-        var tMsCt = new Array(0,0,0,0,0,0,0,0,0,0,0,0)
-        var tMsIc = new Array(0,0,0,0,0,0,0,0,0,0,0,0)
-        for(i=0;i<res.data.length;i++){          
-          monthSet.add(Number(res.data[i].month))
-          //对应月份的数据加进去          
-          a_year_bill_data[Number(res.data[i].month)-1].add(res.data[i])   //坑坑！！！this.data!!!! //再次坑坑“-1”
-          //每月数据
-          console.log("查下来的res.data到底给了什么",res.data[i])
-          if(res.data[i].coi=="cost"){
-            tMsCt[Number(res.data[i].month)-1]+=res.data[i].money;
-          }else{
-            tMsIc[Number(res.data[i].month)-1]+=res.data[i].money;
+        if(res.data.length!=0){
+          console.log("按年份查询成功 - refreshPage",res.data)
+          var i
+          let monthSet = new Set()
+          // 遍历每一条记录
+          // console.log("res.data",res.data)
+          let a_year_bill_data = new Array()
+          for(i=0;i<12;i++){
+            a_year_bill_data[i]=new Set()
           }
-          //年度分类数据暂时不算
-        }
-        let tempArrArr=new Array()
-        for(i=0;i<12;i++){          
-            tempArrArr[i]=Array.from(a_year_bill_data[i])
-        }
-        
-        var tempArr;
-        var tempArr=Array.from(monthSet)
-        tempArr.sort().reverse()
-        console.log(tempArr)
-        // 把他弄成只渲染一次！！
-        that.setData({
-          months:tempArr,
-          a_year_bill_data_Arr:tempArrArr,
-          monthsCost:tMsCt,
-          monthsIncome:tMsIc,
-          emptyYearPage:false
+          var tMsCt = new Array(0,0,0,0,0,0,0,0,0,0,0,0)
+          var tMsIc = new Array(0,0,0,0,0,0,0,0,0,0,0,0)
+
+          var dayCost = this.data.dayCost
+          var dayIncome = this.data.dayIncome
+          ///////////////////////////////////////////////每条信息的循环/////////////////////////////////////////////
+          for(i=0;i<res.data.length;i++){
+            //准备好month数组，收集出现过的月份          
+            monthSet.add(Number(res.data[i].month))
+
+            //对应月份的数据加进去（按月份整理到   a_year_bill_data ）       
+            a_year_bill_data[Number(res.data[i].month)-1].add(res.data[i])   //坑坑！！！this.data!!!! //再次坑坑“-1”
+            
+            //每月收支统计
+            if(res.data[i].coi=="cost"){
+              tMsCt[Number(res.data[i].month)-1]+=res.data[i].money;
+            }else{
+              tMsIc[Number(res.data[i].month)-1]+=res.data[i].money;
+            }
+
+            // console.log("只能出现今天的日期",res.data[i].year+"-"+res.data[i].month+"-"+res.data[i].day)
+            //今日cost and income
+            if(res.data[i].year+"-"+res.data[i].month+"-"+res.data[i].day==this.data.today){
+              
+              if(res.data[i].coi=="cost")dayCost+=res.data[i].money
+              else dayIncome+=res.data[i].money
+            }
+
+            //年度分类数据暂时不算
+
+          }
+          ////////////////////////////////////////////  end for  /////////////////////////////////////////////////////////
+
+          let tempArrArr=new Array()
+          for(i=0;i<12;i++){          
+              tempArrArr[i]=Array.from(a_year_bill_data[i])
+          }
+          
+          //moths 集合转数组
+          var tempArr;
+          var tempArr=Array.from(monthSet)
+          tempArr.sort().reverse()
+
+
+          // console.log(tempArr)
+          // 把他弄成只渲染一次！！
+          that.setData({
+            months:tempArr,
+            a_year_bill_data_Arr:tempArrArr,
+            monthsCost:tMsCt,
+            monthsIncome:tMsIc,
+            emptyYearPage:false,
+            dayCost:dayCost,
+            dayIncome:dayIncome
         })}else{
           //当前年页没有数据
           console.log("当前年页没有数据")
           that.setData({
             a_year_bill_data_Arr:[],
             months:[],
-            emptyYearPage:true
+            emptyYearPage:true,
+            dayCost:"-- ",
+            dayIncome:"-- "
           })
         }
       },
@@ -385,8 +434,21 @@ Page({
 
 
 
+          //////////////////////////////////////////////////////////////////
+          /***********       避免频繁查询数据库时的优化操作      ************/
 
-          /***********避免频繁查询数据库时的优化操作************/
+          //是不是今天的数据？
+          var dayIcome = this.data.dayIncome
+          var dayCost = this.data.dayCost
+          // console(dateArr,this.data.today)
+          if(this.data.date==this.data.today){
+            if(coi=="cost"){
+              dayCost+=num_mon
+            }else{
+              dayIcome+=num_mon
+            }
+          }
+
           //如果年份是新的，直接假装加入年份选择列表（注意，把条目的ID也加进去，因为要查找
           var that = this
           if(!hasThatYear){
@@ -395,7 +457,10 @@ Page({
                 tArr.push(year)
                 tArr.sort().reverse()
                 this.setData({
-                  years:tArr
+                  years:tArr,
+                  //这些日数据要加
+                  dayCost:dayCost,
+                  dayIncome:dayIcome
                 })
               
           }
@@ -429,6 +494,9 @@ Page({
                   monthsCost:tArrMonthIorC,
                   emptyYearPage:false,
                   // months:tArrAddMonth
+                  //这些日数据要加
+                  dayCost:dayCost,
+                  dayIncome:dayIcome
                 })
               }else{
                 this.setData({
@@ -436,13 +504,21 @@ Page({
                   monthsIncome:tArrMonthIorC,
                   emptyYearPage:false,
                   // months:tArrAddMonth
+                  //这些日数据要加
+                  dayCost:dayCost,
+                  dayIncome:dayIcome
                 })
               }
               //三、准备好更新存在的月份
               this.refreshMonthsArr()
               // console.log(this.data.a_year_bill_data_Arr)
-            }else{//不是所选的年份，什么都不用干
+            }else{//不是所选的年份，只关心日期
                 //do nothing
+                this.setData({
+                  //这些日数据要加
+                  dayCost:dayCost,
+                  dayIncome:dayIcome
+                })
             }
           }
 

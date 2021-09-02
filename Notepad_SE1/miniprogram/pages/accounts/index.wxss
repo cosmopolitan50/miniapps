@@ -8,12 +8,6 @@
   justify-content: space-around;
 }
 
-/* button{
-  margin:5rpx;
-  width: 20%;  
-  
-} */
-
 .inputBox{
   background-color: white;
   padding: 30rpx 20rpx;
@@ -57,20 +51,3 @@
   display: flex;
   margin: 0 auto;
 }
-
-/* .cellStyle{
-  padding: 5rpx;
-}
-.cellsStyle{
-  padding: 5rpx;
-   
-} */
-
-/* .slideModBtn{
-  background-color:#FE8D3F ;
-  padding:auto 20rpx; 
-}
-.slideDelBtn{
-  background-color: #FF5967;
-  padding:auto 20rpx; 
-} */
