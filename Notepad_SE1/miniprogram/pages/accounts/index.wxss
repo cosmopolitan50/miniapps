@@ -51,3 +51,24 @@
   display: flex;
   margin: 0 auto;
 }
+
+.promptText{
+  text-align:center;
+  margin-top: 40rpx;
+  font-size:smaller;
+  color:"gray"
+}
+
+.icon{
+  width: 50rpx;
+  height: 50rpx;
+  /* align-items:right; */
+  /* float: right; */
+}
+.dayCoI{
+  font-size: 30rpx;
+  /* text-align: center; */
+  margin-top: 40rpx;
+  margin-left: 80rpx;
+  /* color: white; */
+}

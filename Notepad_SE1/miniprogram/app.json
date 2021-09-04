@@ -18,7 +18,8 @@
     "pages/accounts/index",
     "pages/tool/index",
     "pages/me/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/accounts_sta/accounts_sta"
   ],
   "tabBar": {
     

@@ -1,38 +1,53 @@
 <view>
-  <view class="topBar" style="display: flex;text-align: left;">
 
-    <view style="font-size: 30rpx;margin-top: 20rpx;margin-left: 20rpx;">{{(emptyDatabase||!haveGetOpenId)?"^_^":"日期"}}
-      <picker value="{{yearsIdx}}" range="{{years}}" bindchange="bindPickerChange"
-        style="font-size: 50rpx; width: 180rpx; height: 106rpx;font-weight: 500; font-weight: bold;">
-        {{years[yearsIdx]}}</picker>
+  <view class="topBar" style="display: flex;flex-direction: column;text-align: left;"
+    wx:if="{{haveGetOpenId}}">
+    <view style="display: flex;flex-direction: row;position: relative;">
+      <view style="font-size: 30rpx;margin-top: 40rpx;margin-left: 20rpx;">
+      年份
+        <picker value="{{yearsIdx}}" range="{{years}}" bindchange="bindPickerChange"
+          style="font-size: 50rpx; width: 180rpx; height: 106rpx;font-weight: 500; font-weight: bold;color: white;">
+          {{emptyDatabase?"----":years[yearsIdx]}}</picker>
+      </view>
+
+      <view class="dayCoI" wx:if="{{years[yearsIdx]==todayYear}}">
+        <text>本日支出\n</text><text style="color: white;font-weight: bold;">{{dayCost}} ¥</text>
+      </view>
+      <view class="dayCoI" wx:if="{{years[yearsIdx]==todayYear}}">
+        <text>本日收入\n</text><text style="color: white;font-weight: bold;">{{dayIncome}} ¥</text>
+      </view>
+      <view style="padding-top: 50rpx;padding-left: 70rpx;position: absolute;right: 40rpx;">
+        <image class="icon" src="/images/statistics.png" bindtap="toStatistics"></image>
+      </view>
     </view>
-    
-      <view
-        style="margin-left: 10%; font-size: 30rpx; margin-top: 55rpx; width: 158rpx; height: 141rpx; display: block; box-sizing: border-box; left: NaNrpx; top: NaNrpx">
-        <text>本日支出\n{{dayCost}}¥</text>
-      </view>
-      <view style="margin-left: 10%;font-size:30rpx;margin-top:55rpx">
-        <text>本日收入\n{{dayIncome}}¥</text>
-      </view>
-    
+    <view>
+      <mp-sticky offset-top="16">
+        <button size="mini" type="primary" style="margin-left:290rpx; background-color: #008F7A"
+          bindtap="writeABillPopup">记一笔</button>
+      </mp-sticky>
+
+    </view>
+
   </view>
-  <view class="topBar">
-    <mp-sticky offset-top="16">
-      <button size="mini" type="primary" style="margin:0 290rpx; background-color: #008F7A"
-        bindtap="writeABillPopup">{{haveGetOpenId?"记一笔":"登录"}}</button>
-    </mp-sticky>
+  <view wx:else class="topBar">
+    <view style="text-align: center;color: white;font-weight: bold;font-size: large;padding: 100rpx;" bindtap="login">
+      点我登录
+    </view>
+
+
   </view>
+
 </view>
 
 <!-- 分割线 -->
 <view style="height: 5px;background-color: gainsboro;"></view>
 
-<view wx:if="{{emptyDatabase}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 记下我的第一笔账 *
+<view wx:if="{{emptyDatabase}}" class="promptText">* 记下我的第一笔账 *
 </view>
 
-<view wx:if="{{emptyYearPagee}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 这一年没有记账数据 *
+<view wx:if="{{emptyYearPage && haveGetOpenId}}" class="promptText">* 这一年没有记账数据 *
 </view>
-<view wx:if="{{!haveGetOpenId}}" style="text-align:center;margin-top:rpx;font-size:smaller;color:gray">* 登录开启记账生活 *
+<view wx:if="{{!haveGetOpenId}}" class="promptText">* 登录开启记账生活 *
 </view>
 
 <mp-cells ext-class="cellsStyle" title="{{months[index]}}月"
@@ -46,7 +61,7 @@
         <view style="width: 100rpx;font-size: small;color: darkgrey;padding-left: 20rpx;">{{item.day}}日</view>
         <view
           style='flex-grow: 1;text-align: center;font-size: small;font-weight: bold;color: {{item.coi=="cost"?"#2f8ee9":"#008F7A"}};'>
-          {{TypeKeyPair[item.type]}}</view>
+          {{TypeKeyPair[item.type].name}}</view>
         <view
           style='width: 150rpx;text-align: right;margin-right: 40rpx;color: {{item.coi=="cost"?"#5095ED":"#34EBB5"}};'>
           {{item.coi=="cost"?"-":"+"}}{{item.money}}</view>
@@ -55,7 +70,7 @@
         {{item.remark==""?"(无备注)":"备注："}}{{item.remark}}
       </view>
       <!-- ************************************修改操作表单*********************** -->
-      <view wx:if="{{id_showModForm==item._id}}">
+      <view wx:if="{{id_showModForm==item._id}}" style="background-color: rgb(253, 237, 201);">
         <form bindsubmit="formSubmit_updateBill">
           <!-- 金额栏 -->
           <view>
@@ -75,7 +90,7 @@
         </form>
       </view>
       <!-- ************************************删除确认表单*********************** -->
-      <view wx:if="{{id_showDelForm==item._id}}">
+      <view wx:if="{{id_showDelForm==item._id}}" style="background-color: rgb(255, 190, 204);">
         <form bindsubmit="formSubmit_DeleteBill">
           <!-- 按钮 -->
           <view class="HContainer" style="padding-left:20rpx;padding-top: 20rpx;padding-bottom: 20rpx;">
