@@ -17,7 +17,7 @@
 
     "pages/accounts/index",
     "pages/tool/index",
-    "pages/me/index",
+    
     "pages/logs/logs",
     "pages/accounts_sta/accounts_sta"
   ],
@@ -44,13 +44,8 @@
         "selectedIconPath": "images/tool_sel.png",
         "pagePath":"pages/tool/index",
         "text": "工具"
-      },
-      {
-        "iconPath": "images/me.png",
-        "selectedIconPath": "images/me_sel.png",
-        "pagePath":"pages/me/index",
-        "text": "我的"
       }
+      
     ]
   },
   "useExtendedLib": {

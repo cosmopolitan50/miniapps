@@ -149,7 +149,7 @@ Page({
 
   },
   
-refreshPage(){
+async refreshPage(){
   
     //年页面为空,onLoad不执行此条函数
     
@@ -193,14 +193,16 @@ refreshPage(){
           // console.log("执行到这里",res.data.length)
           var i
           var yearTypeStatistic = this.data.TypeKeyPair
+          //必须要清空
+          var keysOfTypePair = Object.keys(this.data.TypeKeyPair)
+          var keysNum = Object.keys(this.data.TypeKeyPair).length
+          for(i=0;i<keysNum;i++){
+            yearTypeStatistic[keysOfTypePair[i]].tempSumOfAyear=0
+          }
           for(i=0;i<res.data.length;i++){
             // console.log("能不能进入循环？")
 
             //年份统计，年度分类数据
-            // console.log(res)
-            // console.log(res.data.type,res.data.money)
-            // console.log(yearTypeStatistic[res.data[i].type].tempSumOfAyear)
-            
             yearTypeStatistic[res.data[i].type].tempSumOfAyear+=res.data[i].money
             // console.log("come on !!!")
 
@@ -295,7 +297,7 @@ refreshPage(){
     await that.refreshYear()
     if(!that.data.emptyDatabase){
       console.log("数据库非空，即将执行refreshPage")
-      that.refreshPage()
+      await that.refreshPage()
     }
     else{
       console.log("数据库为空，清除页面数据")
@@ -365,7 +367,7 @@ refreshPage(){
     //登录功能
     var that = this
     await that.getOpenId()
-    that.initPage()
+    await that.initPage()
   },
 
   writeABillPopup(e){    

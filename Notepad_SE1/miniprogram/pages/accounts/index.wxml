@@ -11,10 +11,10 @@
       </view>
 
       <view class="dayCoI" wx:if="{{years[yearsIdx]==todayYear}}">
-        <text>本日支出\n</text><text style="color: white;font-weight: bold;">{{dayCost}} ¥</text>
+        <text>今日支出\n</text><text style="color: white;font-weight: bold;">{{dayCost}} ¥</text>
       </view>
       <view class="dayCoI" wx:if="{{years[yearsIdx]==todayYear}}">
-        <text>本日收入\n</text><text style="color: white;font-weight: bold;">{{dayIncome}} ¥</text>
+        <text>今日收入\n</text><text style="color: white;font-weight: bold;">{{dayIncome}} ¥</text>
       </view>
       <view style="padding-top: 50rpx;padding-left: 70rpx;position: absolute;right: 40rpx;">
         <image class="icon" src="/images/statistics.png" bindtap="toStatistics"></image>
