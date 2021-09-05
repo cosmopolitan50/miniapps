@@ -326,6 +326,9 @@ async refreshPage(){
   
   onLoad(options){
     console.log("加载")
+    wx.setNavigationBarTitle({
+      title: '记账'
+    })
     if(this.data.haveGetOpenId){
       console.log("已经有OpenID直接加载页面")
       this.initPage()

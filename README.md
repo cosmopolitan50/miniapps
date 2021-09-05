@@ -1,18 +1,47 @@
-## 这个README文件
+### AppID（小程序ID）
 
+wxfff4236b2330e845
 
+### 文件结构
 
+```tree
+目录树
+Notepad_SE1
+├─cloudfunctions					---云函数
+│  └─quickstartFunctions			---云函数快速上手
+│      ├─createCollection
+│      ├─getMiniProgramCode
+│      ├─getOpenId
+│      ├─selectRecord
+│      ├─sumRecord
+│      └─updateRecord
+└─miniprogram						---小程序文件夹
+    ├─components					---组件
+    │  └─cloudTipModal
+    ├─images						---图片
+    └─pages							---页面
+        ├─accounts					---记账页面
+        ├─createCollection
+        ├─deployService
+        ├─getMiniProgramCode
+        ├─getOpenId
+        ├─index
+        ├─me						---“我的”页面
+        ├─notes						---便签页面
+        ├─selectRecord
+        ├─sumRecord
+        ├─sumRecordResult
+        ├─tool						---“工具”页面
+        ├─updateRecord
+        ├─updateRecordResult
+        ├─updateRecordSuccess
+        └─uploadFile
 
+```
 
+### 计划
 
-
-
-
-
-
-关于记账功能我已经规划好了：大概是这样
-
-#### 记账功能首页
+#### 记账功能
 
 顶部显示：时间，收入，支出。
 
@@ -41,6 +70,3 @@
 数据库中存储的数据结构
 
 * 日期、收支、类别、金额、备注
-
-
-

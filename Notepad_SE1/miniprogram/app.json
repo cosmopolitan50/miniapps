@@ -19,7 +19,10 @@
     "pages/tool/index",
     
     "pages/logs/logs",
-    "pages/accounts_sta/accounts_sta"
+    "pages/accounts_sta/accounts_sta",
+    "pages/pre_bullet/pre_bullet",
+    "pages/bullet/bullet",
+    "pages/picAndText/picAndText"
   ],
   "tabBar": {
     
@@ -40,6 +43,12 @@
         "text": "记账"
       },
       {
+        "iconPath": "images/picAndText.png",
+        "selectedIconPath": "images/picAndText_sel.png",
+        "pagePath":"pages/picAndText/picAndText",
+        "text": "图文"
+      },
+      {
         "iconPath": "images/tool.png",
         "selectedIconPath": "images/tool_sel.png",
         "pagePath":"pages/tool/index",
@@ -55,7 +64,7 @@
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "小程序的名字",
+    "navigationBarTitleText": "记事本小程序",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json",
