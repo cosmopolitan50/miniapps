@@ -1,8 +1,8 @@
 <view style="background-color: rgb(255, 110, 154);height: 20rpx;"></view>
 <!-- home搬迁 -->
 <view style="margin-top: 10rpx;">
-  <view >
-    <image style="height: 25px; width: 25px; margin: 0px 0px 0px 280px; z-index: 999; position: relative;"
+  <view style="display: flex;flex-direction: row-reverse;">
+    <image style="height: 25px; width: 25px;z-index: 999; margin-right: 20rpx;"
       src="{{musicIcon}}" bindtap='tapSign'></image>
   </view>
 </view>
@@ -54,14 +54,14 @@
 <!-- 来自history -->
 <view class="container">
   <view wx:if="{{tasks==''}}" style="text-align: center;color: gray;">暂无记录</view>
-  <block wx:for="{{tasks}}" wx:for-item="item">
+  <block wx:for="{{tasks}}" wx:for-item="item" wx:key="index">
     <view class='liststyle'>
 
       <view class='title' id='{{item.des}}'>{{item.des}}</view>
 
 
       <view class="weui-uploader__bd">
-        <block wx:for="{{item.images}}" wx:for-item="image">
+        <block wx:for="{{item.images}}" wx:for-item="image" wx:key="index">
           <view class="weui-uploader__file">
             <image class="weui-uploader__img" src="{{image}}" data-src="{{image}}" bindtap="previewImage"></image>
           </view>

@@ -6,14 +6,7 @@
     "pages/getOpenId/index",
     "pages/getMiniProgramCode/index",
     "pages/deployService/index",
-    "pages/createCollection/index",
     "pages/uploadFile/index",
-    "pages/selectRecord/index",
-    "pages/updateRecord/index",
-    "pages/updateRecordResult/index",
-    "pages/updateRecordSuccess/index",
-    "pages/sumRecord/index",
-    "pages/sumRecordResult/index",
 
     "pages/accounts/index",
     "pages/tool/index",
@@ -23,7 +16,8 @@
     "pages/pre_bullet/pre_bullet",
     "pages/bullet/bullet",
     "pages/picAndText/picAndText",
-    "pages/picAndText/add_pAt"
+    "pages/picAndText/add_pAt",
+    "pages/2048/2048"
   ],
   "tabBar": {
     

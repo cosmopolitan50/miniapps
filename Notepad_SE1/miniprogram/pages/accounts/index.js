@@ -370,7 +370,7 @@ async refreshPage(){
     //登录功能
     var that = this
     await that.getOpenId()
-    await that.initPage()
+    that.initPage()
   },
 
   writeABillPopup(e){    

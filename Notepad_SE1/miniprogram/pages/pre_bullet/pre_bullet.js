@@ -46,7 +46,9 @@ Page({
     })
   },
   onLoad: function (options) {
-
+    wx.setNavigationBarTitle({
+      title: '手持弹幕'
+    })
   },
 
   /**

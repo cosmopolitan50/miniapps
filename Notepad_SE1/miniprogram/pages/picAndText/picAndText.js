@@ -187,5 +187,10 @@ Page({
         })
       }
     }
+  },
+  onLoad(){
+    wx.setNavigationBarTitle({
+      title: '图文打卡'
+    })
   }
 })

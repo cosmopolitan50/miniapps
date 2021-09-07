@@ -37,6 +37,9 @@ Page({
   },
 
   onLoad: function () {
+    wx.setNavigationBarTitle({
+      title: 'TODOS'
+    })
     this.load()
   },
 
