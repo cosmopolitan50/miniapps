@@ -6,36 +6,42 @@ wxfff4236b2330e845
 
 ```tree
 目录树
-Notepad_SE1
-├─cloudfunctions					---云函数
-│  └─quickstartFunctions			---云函数快速上手
-│      ├─createCollection
-│      ├─getMiniProgramCode
-│      ├─getOpenId
-│      ├─selectRecord
-│      ├─sumRecord
-│      └─updateRecord
-└─miniprogram						---小程序文件夹
-    ├─components					---组件
-    │  └─cloudTipModal
-    ├─images						---图片
-    └─pages							---页面
-        ├─accounts					---记账页面
-        ├─createCollection
-        ├─deployService
-        ├─getMiniProgramCode
-        ├─getOpenId
-        ├─index
-        ├─me						---“我的”页面
-        ├─notes						---便签页面
-        ├─selectRecord
-        ├─sumRecord
-        ├─sumRecordResult
-        ├─tool						---“工具”页面
-        ├─updateRecord
-        ├─updateRecordResult
-        ├─updateRecordSuccess
-        └─uploadFile
+──Notepad_SE1
+    ├─cloudfunctions
+    │  └─quickstartFunctions
+    │      ├─createCollection
+    │      ├─getMiniProgramCode
+    │      ├─getOpenId
+    │      ├─selectRecord
+    │      ├─sumRecord
+    │      └─updateRecord
+    └─miniprogram
+        ├─components
+        │  └─cloudTipModal
+        ├─images
+        └─pages
+            ├─accounts
+            ├─accounts_sta
+            ├─bullet
+            ├─createCollection
+            ├─deployService
+            ├─getMiniProgramCode
+            ├─getOpenId
+            ├─index
+            ├─logs
+            ├─me
+            ├─notes
+            ├─picAndText
+            ├─pre_bullet
+            ├─selectRecord
+            ├─sumRecord
+            ├─sumRecordResult
+            ├─tool
+            ├─updateRecord
+            ├─updateRecordResult
+            ├─updateRecordSuccess
+            └─uploadFile
+
 
 ```
 
