@@ -63,6 +63,7 @@ Page({
     wx.navigateBack({
       delta: 2,
     })
+    
   },
 
 /* 输入记事本的值*/
@@ -99,6 +100,10 @@ Page({
     console.log("save value" + value);
     wx.navigateBack({
       delta: 0,
+    })
+    wx.showToast({
+      title: '点击“搜索”进行刷新',
+      icon:'none'
     })
   },
   

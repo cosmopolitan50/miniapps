@@ -16,12 +16,12 @@
 
       <form bindsubmit='formSubmit' >
         <picker name="time" mode="date" value="{{date}}" start="2000-09-01" bindchange="bindDateChange">
-          <view class="weui-cells ">
-            <view class="weui-cell weui-cell_input">
+          <view class="weui-cells" style="margin:10rpx 20rpx">
+            <view class="weui-cell weui-cell_input" >
               <view class="weui-cell__hd"
-                style="width: 214rpx; height: 104rpx; display: block; box-sizing: border-box; left: NaNrpx; top: NaNrpx">
+                style="width: 214rpx; height: 104rpx; ">
                 <view class="weui-input"
-                  style="width: 378rpx; height: 104rpx; display: block; box-sizing: border-box; left: NaNrpx; top: NaNrpx">
+                  style="width: 378rpx; height: 104rpx; ">
                   创建日期
                 </view>
               </view>
@@ -33,9 +33,9 @@
             </view>
           </view>
         </picker>
-        <view class="weui-cells ">
+        <view class="weui-cells" style="margin:10rpx 20rpx">
           <view class="sel">
-            <input class="weui-input" name="des" placeholder="关键字（选填）" />
+            <input class="weui-input" name="des" placeholder="关键字（选填）" placeholder-style="font-size:small"/>
           </view>
         </view>
 
